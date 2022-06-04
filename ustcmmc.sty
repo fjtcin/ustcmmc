@@ -1,0 +1,99 @@
+% File: ustcmmc.sty (LaTeX style file for Jiuzhang Mathematical Modeling Contest in USTC)
+% by X. Zhang (06/03/22)
+
+% This file contains the LaTeX formatting parameters for a US letter paper
+% that is 8.5 inches wide by 11 inches high.
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{ustcmmc}
+
+\RequirePackage{xcolor}
+\RequirePackage{titlesec}
+\RequirePackage[zihao=-4]{ctex}
+\RequirePackage{biblatex}
+
+
+% Metadata
+
+\ifdefined\hypersetup
+  \definecolor{mydarkblue}{rgb}{0,0.08,0.45}
+  \hypersetup{%
+    pdftitle={},
+    pdfauthor={Anonymous Submission},
+    pdfsubject={Jiuzhang Mathematical Modeling Contest in USTC},
+    pdfkeywords={},
+    pdfborder=0 0 0,
+    pdfpagemode=UseNone,
+    colorlinks=true,
+    linkcolor=mydarkblue,
+    citecolor=mydarkblue,
+    filecolor=mydarkblue,
+    urlcolor=mydarkblue,
+    }
+\fi
+
+
+% US letter paper
+
+\paperwidth=8.5in
+\paperheight=11in
+
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+\else
+   \ifx\pdfoutput\relax
+   \else
+     \ifcase\pdfoutput
+     \else
+       \pdftrue
+     \fi
+   \fi
+\fi
+
+\ifpdf
+  \setlength{\pdfpagewidth}{8.5in}
+  \setlength{\pdfpageheight}{11in}
+\fi
+
+
+% Physical page layout
+
+\evensidemargin -0.23in
+\oddsidemargin -0.23in
+\setlength\textheight{9.0in}
+\setlength\textwidth{6.75in}
+\setlength\columnsep{0.25in}
+\setlength\headheight{10pt}
+\setlength\headsep{10pt}
+\setlength\footskip{0pt}
+\addtolength{\topmargin}{-20pt}
+\addtolength{\topmargin}{-0.29in}
+\sloppy
+
+
+% Contents
+
+\titleformat{\section}[block]{\zihao{4}\normalfont\bfseries\filcenter}{\thesection}{1em}{}
+\titleformat{\subsection}[hang]{\normalfont}{\thesubsection}{1em}{}
+
+\def\toptitlebar{\hrule height1pt \vskip .25in}
+\def\bottomtitlebar{\vskip .22in \hrule height1pt \vskip .3in}
+
+\long\def\ustcmmctitle#1{%
+  \ifdefined\hypersetup
+    \hypersetup{pdftitle={#1}}
+  \fi
+  {\center\baselineskip 18pt \toptitlebar{\zihao{3}\normalfont\bfseries #1}\bottomtitlebar}
+}
+
+\renewenvironment{abstract}{%
+\centerline{\zihao{4}\normalfont\bfseries 摘要}
+\vspace{-0.12in}\begin{quote}}
+{\par\end{quote}\vskip 0.12in}
+
+\def\ustcmmckeywords#1{%
+  \ifdefined\hypersetup
+    \hypersetup{pdfkeywords={#1}}
+  \fi
+  {关键词：#1}
+}
