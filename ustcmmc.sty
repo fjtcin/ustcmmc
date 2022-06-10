@@ -1,5 +1,5 @@
 % File: ustcmmc.sty (LaTeX style file for Jiuzhang Mathematical Modeling Contest in USTC)
-% by X. Zhang (06/03/22)
+% by X. Zhang (06/10/22)
 
 % This file contains the LaTeX formatting parameters for a US letter paper
 % that is 8.5 inches wide by 11 inches high.
@@ -10,7 +10,7 @@
 \RequirePackage{xcolor}
 \RequirePackage{titlesec}
 \RequirePackage[zihao=-4]{ctex}
-\RequirePackage{biblatex}
+\RequirePackage[sorting=none]{biblatex}
 
 
 % Metadata
@@ -19,8 +19,8 @@
   \definecolor{mydarkblue}{rgb}{0,0.08,0.45}
   \hypersetup{%
     pdftitle={},
-    pdfauthor={Anonymous Submission},
-    pdfsubject={Jiuzhang Mathematical Modeling Contest in USTC},
+    pdfauthor={匿名提交},
+    pdfsubject={九章杯数学竞赛--应用数学与建模},
     pdfkeywords={},
     pdfborder=0 0 0,
     pdfpagemode=UseNone,
@@ -29,7 +29,7 @@
     citecolor=mydarkblue,
     filecolor=mydarkblue,
     urlcolor=mydarkblue,
-    }
+  }
 \fi
 
 
@@ -97,3 +97,120 @@
   \fi
   {关键词：#1}
 }
+
+
+% Bibliography
+
+\renewcommand*{\newunitpunct}{\addcomma\space}
+\renewbibmacro*{in:}{}
+
+\DeclareFieldFormat[article]{volume}{\bibstring{volume}~#1}
+\DeclareFieldFormat[article]{number}{\bibstring{number}~#1}
+\DeclareFieldFormat{pages}{#1}
+\DeclareFieldFormat{urldate}{%
+  (\thefield{urlyear}\addslash%
+  \thefield{urlmonth}\addslash%
+  \thefield{urlday}\isdot)}
+
+% Comma before and after journal volume
+\renewbibmacro*{volume+number+eid}{%
+  \setunit*{\addcomma\space}%
+  \printfield{volume}%
+  \setunit*{\addcomma\space}%
+  \printfield{number}%
+  \setunit{\bibeidpunct}%
+  \printfield{eid}}
+
+% Issue/date macros removed after journal number
+\renewbibmacro*{journal+issuetitle}{%
+  \usebibmacro{journal}%
+  \setunit*{\addspace}%
+  \iffieldundef{series}
+    {}
+    {\newunit
+     \printfield{series}%
+     \setunit{\addspace}}%
+  \usebibmacro{volume+number+eid}%
+  \newunit}
+
+% Note field deleted
+\renewbibmacro*{note+pages}{%
+  \setunit{\addcolon\space}%
+  \printfield{pages}%
+  \newunit}
+
+% Issue field deleted
+\renewbibmacro*{issue+date}{%
+  \setunit*{\addcomma\space}%
+  \usebibmacro{date}%
+  \newunit}
+
+\DeclareBibliographyDriver{article}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/translator+others}%
+  \setunit{\printdelim{nametitledelim}}\newblock
+  \usebibmacro{title}%
+  \newunit\newblock
+  \usebibmacro{journal+issuetitle}%
+  \newunit
+  \usebibmacro{note+pages}%
+  \setunit{\addspace}%
+  \usebibmacro{issue+date}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+% Pages field added
+\renewbibmacro*{publisher+location+date}{%
+  \printlist{location}%
+  \iflistundef{publisher}
+    {\setunit*{\addcomma\space}}
+    {\setunit*{\addcolon\space}}%
+  \printlist{publisher}%
+  \setunit{\bibpagespunct}%
+  \printfield{pages}%
+  \setunit*{\addcomma\space}%
+  \usebibmacro{date}%
+  \newunit}
+
+\DeclareBibliographyDriver{inbook}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/translator+others}%
+  \setunit{\printdelim{nametitledelim}}\newblock
+  \usebibmacro{maintitle+booktitle}%
+  \newunit\newblock
+  \printfield{edition}%
+  \newunit\newblock
+  \usebibmacro{publisher+location+date}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+\DeclareBibliographyDriver{online}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/editor+others/translator+others}%
+  \setunit{\printdelim{nametitledelim}}\newblock
+  \usebibmacro{title}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
