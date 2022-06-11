@@ -10,3 +10,5 @@
 这样，发送 \(v_{ij}\) 后接收到的信号仍在 \(V_i\) 的概率为 \(P_{ij}=\sum_{k=1}^{a_i}p^i_{jk}\)。
 取 \(x_i\) 为使得 \(P_{ij}\) 最大的 \(v_{ij}\) 即可。
 于是 \(\mathrm{Prob}\left(x_j\ne x_i\right)=e_i=1-\max_{1\le j\le a_i}P_{ij}\)，则 \(\mathrm{BER}=\max_{1\le i\le m}e_i\)。
+
+从以上分析可以看出，一旦设计好$V_1,\dots,V_m$，则可以设计出合适的$x_1,\dots,x_m$。现在需要考虑如何设计$V_1,\dots,V_m$。
