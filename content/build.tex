@@ -1,1 +1,36 @@
 \section{模型的建立与求解}
+
+\subsection{问题一的求解}
+
+我们将给出BER最小值的一个估计。
+
+\begin{lemma}
+代数式$\binom{n}{q}p^q(1-p)^{n-q}$的最大值在$q=\lceil (n+1)p\rceil-1$时取得。
+\end{lemma}
+\begin{proof}
+记$f(q)=\binom{n}{q}p^q(1-p)^{n-q}$，则
+$$
+\frac{f(q+1)}{f(q)}=\frac{p(n-q)}{(1-p)(q+1)}
+$$
+由此可知$q\le (n+1)p-1$时$f(q)$单调增加，否则$f(q)$单调减少。引理得证。
+\end{proof}
+
+记$q_0=\lceil (n+1)p\rceil-1$，$p_0=\binom{n}{q_0}p^{q_0}(1-p)^{n-q_0}$。因为任何$p^i_{jl}$不超过$p_0$，于是我们可以给出BER的最小值的一个下界。
+\begin{align*}
+    \mathrm{BER}\text{的最小值}&=\max_{1\le i\le m}e_i\\
+    &\ge\frac{\sum_{i=1}^m e_i}{m}\\
+    &=\frac{m-\sum_{i=1}^m\sum_{l=1}^{a_i}p^i_{jl}}{m}\\
+    &\ge\frac{m-p_0\sum_{i=1}^m a_i}{m}\\
+    &=\frac{m-p_0\cdot2^n}{m}\\
+    &=1-p_0\cdot 2^{n-k}
+\end{align*}
+
+下面来估计BER的最小值的上界。我们取$V$的一个划分，使得诸$e_i$相等。取$t$是使得$2\sum_{l=1}^t\binom{n}{l}\le 2^{n-k}$的最大整数，则显然$t\le n/2$。通过估计各$f(s)$的个数可得
+$$
+e_i\le 1-\sum_{s=0}^t\binom{n}{s}\left(p^s(1-p)^{n-s}+p^{n-s}(1-p)^s\right)
+$$
+
+故
+$$
+\mathrm{BER}\text{的最小值}\le e_i\le 1-\sum_{s=0}^t\binom{n}{s}\left(p^s(1-p)^{n-s}+p^{n-s}(1-p)^s\right)
+$$
