@@ -29,3 +29,36 @@
 
 故
 \[\mathrm{BER}_\mathrm{min}\le e_i\le 1-\sum_{s=0}^t\binom{n}{s}\left(p^s\left(1-p\right)^{n-s}+p^{n-s}\left(1-p\right)^s\right)\]
+
+\subsection{问题二的求解}
+
+由第一问
+\[1-p_0\cdot 2^{n-k}\le\mathrm{BER}_\mathrm{min}\le 1-\sum_{s=0}^t\binom{n}{s}\left(p^s\left(1-p\right)^{n-s}+p^{n-s}\left(1-p\right)^s\right)\]
+通常 \(\mathrm{BER}_\mathrm{min}\) 的上下界相差不大，随机方法有很好的效果，算法如下：
+\begin{enumerate}
+  \item 定义数池的初始值 \(\mathrm{Pool}=V=\left\{0,1\right\}^n\)
+  \item 在 \(\left[l,r\right]\) 区间内二分 \(\mathrm{BER}_\mathrm{min}\), 二分值记为 \(m\)
+  \begin{enumerate}
+    \item 从数池 \(\mathrm{Pool}\) 中随机取出 \(2^{n-k}\) 个数形成一组 \(V_i\)
+    \item 计算这组 \(V_i\) 的 \(e_i\)
+    \item 如果 \(e_i>m\), 则清空所有分好的组，从头重新随机分配。
+    \item 若随机分配了若干次，仍有 \(e_i>m\), 则在 \(\left[m,r\right]\) 继续二分；否则在 \(\left[l,m\right]\) 继续二分
+    \item 当 \(l,r\) 相近时 \(\left(r-l<\mathrm{eps},\text{ 其中 }\mathrm{eps}\text{ 是一个小量}\right)\), 则可退出二分
+  \end{enumerate}
+  \item \(\mathrm{BER}_\mathrm{min}=r\), \(V\) 的分组即为相应的随机分配结果。
+\end{enumerate}
+
+\(\mathrm{Pool}\) 是一个数据结构，为优化时间复杂度，其要满足：
+\begin{enumerate}
+  \item \(O\left(1\right)\) 插入、删除
+  \item \(O\left(1\right)\) 返回其中的一个随机数值
+\end{enumerate}
+
+实现方法是\cite{main}，考虑一个由哈希表 H 和数组 A 组成的数据结构。哈希表的键是数据结构中的元素，值是它们在数组中的位置。
+\begin{enumerate}
+  \item insert(value): 将值附加到数组中，并让 i 成为它在 A 中的索引。设置 H[value]=i。
+  \item remove(value)：我们将用 A 中的最后一个元素替换 A 中包含 value 的单元格。设 d 是数组 A 中的最后一个元素。设 i 为 H[value]，即要删除的值在数组中的索引。设置 A[i]=d, H[d]=i，将数组大小减一，并从 H 中删除 value(令 H[value]=0)。
+  \item getRandomElement()：让 r=random(A.size())。返回 A[r]。
+\end{enumerate}
+
+由上，时空复杂度均为 \(O\left(2^n\right)\), 时间复杂度中具体的常数大小需要由随机的次数决定。
